@@ -74,8 +74,7 @@ nnoremap \ :Ag<SPACE>
 noremap <Leader>o :NERDTreeToggle<ENTER>
 
 " Save and run current test
-nnoremap <leader>t <Esc>:w<cr>:!bin/spring stop; rspec %<cr>
-nnoremap <leader>q <Esc>:w<cr>:!bin/rspec %<cr>
+nnoremap <leader>t <esc>:w<cr>:call VimuxRunCommand("clear; rspec " . bufname("%"))<cr>
 
 " Tabs
 noremap <Leader>n :tabnew<ENTER>
@@ -124,11 +123,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-rails'                               " Editing Ruby on Rails applications. Required for ctags gem inspection
   Plug 'tpope/vim-repeat'                              " Repeat.vim remaps `.` in a way that plugins can tap into it
   Plug 'tpope/vim-surround'                            " change and add surrounds, []()''...
-  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'AndrewRadev/splitjoin.vim'                     " Switch between single-line and multiline forms of code
+  Plug 'preservim/vimux'                               " Run command in tmux split
 
   " Nerdtree plugins to be initialized after
   Plug 'PhilRunninger/nerdtree-visual-selection'       " Open multiple files via NerdTree
   Plug 'ryanoasis/vim-devicons'                        " display cool icons in NerdTree
+
 call plug#end()
 
 " Ale
@@ -154,6 +155,10 @@ nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+
+" Vimux
+let g:VimuxHeight = "50"
+let g:VimuxOrientation = "v"
 
 " ================ NERDTree ======================
 let NERDTreeQuitOnOpen = 1
@@ -205,7 +210,9 @@ autocmd FileChangedShellPost *
 
 runtime macros/matchit.vim
 
-" Source the vimrc file after saving it
-if has("autocmd")
-  autocmd bufwritepost .vimrc source $MYVIMRC
-endif
+" Source vim configuration file whenever it is saved
+if has ('autocmd')          " Remain compatible with earlier versions
+ augroup Reload_Vimrc       " Group name.  Always use a unique name!
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+  augroup END
+endif " has autocmd

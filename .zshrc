@@ -1,7 +1,7 @@
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="robbyrussell"
+ZSH_THEME="oxide"
 COMPLETION_WAITING_DOTS="true"
-plugins=(git rails gitfast asdf brew last-working-dir common-aliases sublime history-substring-search zsh-syntax-highlighting z)
+plugins=(git rails gitfast asdf brew last-working-dir common-aliases sublime history-substring-search zsh-syntax-highlighting zsh-autosuggestions z)
 
 source $ZSH/oh-my-zsh.sh
 
