@@ -9,18 +9,16 @@ alias agd='sudo apt-get dist-upgrade -y'
 alias aar='sudo apt autoremove'
 alias aac='sudo apt-get autoclean'
 alias dru='sudo do-release-upgrade'
-alias drud='sudo do-release-upgrade -d'
-alias maj='agu && agg && agd && aar && aac && dru'
-
 alias agc='sudo apt-get clean'
 alias rmct='sudo rm -rf ~/.cache/thumbnails/*'
-alias dothecleaning='agc && rmct'
+alias maj='agu && agg && agd && aar && aac && dru && agc && rmct'
 
 alias et='gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled'
 alias dt='gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled'
 
 alias get_pass_login='history | cut -c 8- | tail -n 1 | sed -r "s/^pass\s.+\/(.+) \-c$/\1/"'
 alias pl='echo -n $(get_pass_login) | xclip -selection clipboard'
+alias pc='pass clip'
 passwin() {
   # example : `passwin Email/jproy@mail.fr &`
   # & is used to execute function in background */
@@ -65,18 +63,3 @@ alias dfc!="dotfiles commit -v --amend"
 alias dfp="dotfiles push origin master"
 alias dfp!="dotfiles push --force-with-lease origin master"
 alias dfl="dotfiles log --oneline"
-
-alias get_current_monitor="(xrandr --listmonitors | awk '\$1 == \"0:\" {print \$4}')"
-alias br="xrandr --output $(get_current_monitor) --brightness "
-alias br1="xrandr --output $(get_current_monitor) --brightness .1"
-alias br2="xrandr --output $(get_current_monitor) --brightness .2"
-alias br3="xrandr --output $(get_current_monitor) --brightness .3"
-alias br4="xrandr --output $(get_current_monitor) --brightness .4"
-alias br5="xrandr --output $(get_current_monitor) --brightness .5"
-alias br6="xrandr --output $(get_current_monitor) --brightness .6"
-alias br7="xrandr --output $(get_current_monitor) --brightness .7"
-alias br8="xrandr --output $(get_current_monitor) --brightness .8"
-alias br9="xrandr --output $(get_current_monitor) --brightness .9"
-alias br10="xrandr --output $(get_current_monitor) --brightness 1"
-alias br11="xrandr --output $(get_current_monitor) --brightness 1.1"
-alias br12="xrandr --output $(get_current_monitor) --brightness 1.2"
