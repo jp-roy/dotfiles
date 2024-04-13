@@ -9,7 +9,8 @@ endif
 set autoread                   " Reload files changed outside vim
 set backspace=indent,eol,start " Allow backspace in insert mode
 set belloff=all                " No sound
-set clipboard=unnamedplus      " enable copy/pasting through vim/system clipboard
+set clipboard=unnamedplus      " enable copy/pasting through vim/system clipboardv
+set cursorline                 " 
 set cul                        " highlights current line
 set history=100                " Store lots of :cmdline history
 set laststatus=2               " Status line always on display
@@ -58,28 +59,37 @@ let mapleader=" "              " Map Leader key to <Space>
 nnoremap p p=`]<C-o>
 nnoremap P P=`]<C-o>
 
+
+" Git blame
+noremap <leader>b :Git blame<ENTER>
+
+" open buffer list and switch to buffer
+nnoremap <leader>l :ls<CR>:b<Space>
+
 " Map Ctrl + p to open fuzzy find (FZF)
 nnoremap <c-p> :Files<cr>
 
-" Search last Ag
-noremap <Leader>a q:?Ag<cr><cr>
+" Map Ctrl + m to open marks
+nnoremap <leader>m :Marks<cr>
 
-" Search from clipboard with Ag
-noremap <Leader>g :Ag <C-R>+<ENTER>
+" Search last Rg
+noremap <leader>a q:?Rg<cr><cr>
+
+" Search from clipboard with Rg
+noremap <leader>g :Rg <C-R>+<ENTER>
 
 " bind \ (backward slash) to grep shortcut
-nnoremap \ :Ag<SPACE>
+nnoremap \ :Rg<SPACE>
 
 " Open NERDTree
-noremap <Leader>o :NERDTreeToggle<ENTER>
+noremap <leader>o :NERDTreeToggle<ENTER>
 
 " Save and run current test
 nnoremap <leader>t <esc>:w<cr>:call VimuxRunCommand("clear; rspec " . bufname("%"))<cr>
 
-" Tabs
-noremap <Leader>n :tabnew<ENTER>
-noremap <Leader>h :tabprev<ENTER>
-noremap <Leader>l :tabnext<ENTER>
+" Buffers
+noremap <leader>n :enew<ENTER>
+noremap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " https://github.com/tpope/gem-ctags
 nnoremap <leader>c :!gem install gem-ctags ; gem ctags ; ctags -R --languages=ruby --exclude=.git --exclude=log --exclude=tmp .<cr>
@@ -87,11 +97,12 @@ nnoremap <leader>f <C-]>
 nnoremap <leader>s :tselect<CR>
 
 " Edit .vimrc
-nmap <leader>v :tabedit $MYVIMRC<CR>
+nmap <leader>v :e $MYVIMRC<CR>
 
-syntax on                      " turn on syntax highlighting
-autocmd BufNewFile,BufRead *.arb set syntax=ruby
-autocmd BufRead,BufNewFile *.arb setfiletype ruby
+nnoremap <TAB> >>
+nnoremap <S-TAB> <<
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
 
 " ================ PLUGINS ========================
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -101,49 +112,78 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-  Plug 'AndrewRadev/splitjoin.vim'                    " Switch between single-line and multiline forms of code
-  Plug 'ap/vim-css-color'                             " highlight hex values with their color
-  Plug 'christoomey/vim-tmux-navigator'               " Easily navigate between tmux / vim panes
-  Plug 'dense-analysis/ale'                           " Asynchronous Lint Engine
-  Plug 'godlygeek/tabular'                            " align stuff... like these vim comments
-  Plug 'itchyny/lightline.vim'                        " customize status bar
-  Plug 'itchyny/vim-cursorword'                       " highlights all occurrences of current word under cursor
-  Plug 'lifepillar/vim-solarized8'                    " Solarized theme
-  Plug 'jiangmiao/auto-pairs'                         " automatically closes brackets
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy search for files
-  Plug 'junegunn/fzf.vim'                             " fuzzy search for files
-  Plug 'machakann/vim-highlightedyank'                " highlights yanked chunk
-  Plug 'mattn/emmet-vim'                              " expand abbreviations similar to emmet.
-  Plug 'msanders/snipmate.vim'                        " snippets
-  Plug 'preservim/nerdtree'                           " file browser
-  Plug 'preservim/vimux'                              " Run command in tmux split
-  Plug 'sheerun/vim-polyglot'                         " syntax highlighting for many languages
-  Plug 'tpope/vim-bundler'                            " Goodies for bundler. Required for ctags gem inspection
-  Plug 'tpope/vim-commentary'                         " comment stuff out, like these comments
-  Plug 'tpope/vim-eunuch'                             " UNIX shell commands
-  Plug 'tpope/vim-fugitive'                           " git wrapper
-  Plug 'tpope/vim-rails'                              " Editing Ruby on Rails applications. Required for ctags gem inspection
-  Plug 'tpope/vim-repeat'                             " Repeat.vim remaps `.` in a way that plugins can tap into it
-  Plug 'tpope/vim-surround'                           " change and add surrounds, []()''...
+  Plug 'AndrewRadev/splitjoin.vim'                      " Switch between single-line and multiline forms of code
+  Plug 'Eliot00/git-lens.vim'                           " Shows git blame info in the sign column and on hover
+  Plug 'ap/vim-css-color'                               " highlight hex values with their color
+  Plug 'christoomey/vim-tmux-navigator'                 " Easily navigate between tmux / vim panes
+  Plug 'github/copilot.vim'                             " Uses GitHub API to suggest completions for current line
+  Plug 'godlygeek/tabular'                              " align stuff... like these vim comments
+  Plug 'itchyny/lightline.vim'                          " customize status bar
+  Plug 'itchyny/vim-cursorword'                         " highlights all occurrences of current word under cursor
+  Plug 'jiangmiao/auto-pairs'                           " automatically closes brackets
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }   " fuzzy search for files
+  Plug 'junegunn/fzf.vim'                               " fuzzy search for files
+  Plug 'lifepillar/vim-solarized8'                      " Solarized theme
+  Plug 'machakann/vim-highlightedyank'                  " highlights yanked chunk
+  Plug 'mattn/emmet-vim'                                " expand abbreviations similar to emmet.
+  Plug 'msanders/snipmate.vim'                          " snippets
+  Plug 'preservim/nerdtree'                             " file browser
+  Plug 'preservim/vimux'                                " Run command in tmux split
+  Plug 'sheerun/vim-polyglot'                           " syntax highlighting for many languages
+  Plug 'stefandtw/quickfix-reflector.vim'               " Mass edit in quickfix window
+  Plug 'tpope/vim-bundler'                              " Goodies for bundler. Required for ctags gem inspection
+  Plug 'tpope/vim-commentary'                           " comment stuff out, like these comments
+  Plug 'tpope/vim-dispatch'                             " Asynchronous build and test dispatcher
+  Plug 'tpope/vim-eunuch'                               " UNIX shell commands
+  Plug 'tpope/vim-fugitive'                             " git wrapper
+  Plug 'tpope/vim-rails'                                " Editing RoR apps. Required for ctags gem inspection
+  Plug 'tpope/vim-repeat'                               " Repeat.vim remaps `.` in a way that plugins can tap into it
+  Plug 'tpope/vim-surround'                             " change and add surrounds, []()''...
 
   " Nerdtree plugins to be initialized after
-  Plug 'PhilRunninger/nerdtree-visual-selection'       " Open multiple files via NerdTree
-  Plug 'ryanoasis/vim-devicons'                        " display cool icons in NerdTree
-
+  Plug 'PhilRunninger/nerdtree-visual-selection'        " Open multiple files via NerdTree
+  Plug 'ryanoasis/vim-devicons'                         " display cool icons in NerdTree
 call plug#end()
 
-" Ale
-let g:ale_fix_on_save = 1
-let g:ale_set_highlights = 0
-let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'javascript': ['eslint'],
-      \ 'ruby': ['rubocop'],
+" ================ APPEARANCE ======================
+colorscheme solarized8
+let g:solarized_visibility = 'high'
+set background=dark
+
+" ================ SYNTAX ======================
+syntax on
+autocmd BufNewFile,BufRead *.arb set syntax=ruby
+autocmd BufRead,BufNewFile *.arb setfiletype ruby
+
+" Git lens configuration
+let g:GIT_LENS_ENABLED = 1
+
+" lightline plugin config
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'modified' ] ],
+      \   'right': [ [ 'filename', 'filetype', 'lineinfo' ] ],
+      \ },
+      \ 'component': {
+      \   'lineinfo': "%{line('.') . '/' . line('$')}",
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'filename': 'LightlineFilename',
+      \ },
+      \ 'enable': { 'tabline': 0 },
       \ }
 
-let g:ale_linters = {
-      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \}
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfunction
 
 " highlightedyank
 let g:highlightedyank_highlight_duration = 200
@@ -165,11 +205,18 @@ let NERDTreeQuitOnOpen = 1
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeWinSize = 40
 
 " ================ FZF ======================
 " Populate results in quickfix
-
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+let $FZF_DEFAULT_COMMAND='rg --files --hidden'
+
+" Override default command to show hidden files except gitignore
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --hidden --smart-case --color=always '.shellescape(<q-args>), 1,
+      \   fzf#vim#with_preview(), <bang>0)
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -183,23 +230,6 @@ let g:fzf_action = {
       \ 'ctrl-x': 'split',
       \ 'ctrl-v': 'vsplit' }
 
-" ================ APPEARANCE ======================
-set background=dark
-colorscheme solarized8
-
-" lightline plugin config
-let g:lightline = {
-	\ 'colorscheme': 'solarized',
-	\ 'active': {
-	\   'left': [ [ 'mode', 'paste' ],
-	\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
-  \   'right': [ [ 'lineinfo' ] ],
-	\ },
-	\ 'component_function': {
-	\   'gitbranch': 'FugitiveHead'
-	\ },
-\ }
-
 " Triger `autoread` when files changes on disk
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
         \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
@@ -211,8 +241,25 @@ autocmd FileChangedShellPost *
 runtime macros/matchit.vim
 
 " Source vim configuration file whenever it is saved
-if has ('autocmd')          " Remain compatible with earlier versions
- augroup Reload_Vimrc       " Group name.  Always use a unique name!
-    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-  augroup END
-endif " has autocmd
+command! LightlineReload call LightlineReload()
+
+function! LightlineReload()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
+
+augroup Reload_Vimrc       " Group name.  Always use a unique name!
+  autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+  LightlineReload
+augroup END
+
+augroup CursorLineOnlyInActiveWindow
+  autocmd!
+  autocmd FocusGained,VimEnter,WinEnter,BufWinEnter * setlocal relativenumber
+  autocmd FocusGained,VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  " autocmd FocusGained,VimEnter,WinEnter,BufWinEnter * setlocal number
+  autocmd FocusLost,WinLeave * setlocal nocursorline
+  autocmd FocusLost,WinLeave * setlocal norelativenumber
+  " autocmd FocusLost,WinLeave * setlocal nonumber
+augroup END
