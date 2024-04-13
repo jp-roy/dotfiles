@@ -9,7 +9,8 @@
   stat = !git --no-pager diff --stat
 
   # Clean merged branches
-  sweep = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+  sweepmain = !git branch --merged main | grep -v 'main$' | xargs git branch -D && git remote prune origin
+  sweepmaster = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
 
   # http://www.jukie.net/bart/blog/pimping-out-git-log
   lg = log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'
@@ -39,7 +40,8 @@
 
 [core]
   pager = less -FRSX
-	editor = vim
+  editor = vim
+  excludesfile = /Users/jean-philippe.roy/.gitignore_global
 
 [help]
   autocorrect = 1
@@ -48,11 +50,15 @@
   rebase = true
 
 [push]
-	default = simple
+  default = current
+  autoSetupRemote = true
 
 [user]
-	email = jproy@mail.fr
-	name = Jean-Philippe Roy
+  email = jproy84@gmail.com
+  name = Jean-Philippe Roy
 
 [init]
   defaultBranch = main
+
+[submodule]
+  recurse = true
