@@ -59,7 +59,6 @@ let mapleader=" "              " Map Leader key to <Space>
 nnoremap p p=`]<C-o>
 nnoremap P P=`]<C-o>
 
-
 " Git blame
 noremap <leader>b :Git blame<ENTER>
 
@@ -112,43 +111,43 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-  Plug 'AndrewRadev/splitjoin.vim'                      " Switch between single-line and multiline forms of code
-  Plug 'Eliot00/git-lens.vim'                           " Shows git blame info in the sign column and on hover
-  Plug 'ap/vim-css-color'                               " highlight hex values with their color
-  Plug 'christoomey/vim-tmux-navigator'                 " Easily navigate between tmux / vim panes
-  Plug 'github/copilot.vim'                             " Uses GitHub API to suggest completions for current line
-  Plug 'godlygeek/tabular'                              " align stuff... like these vim comments
-  Plug 'itchyny/lightline.vim'                          " customize status bar
-  Plug 'itchyny/vim-cursorword'                         " highlights all occurrences of current word under cursor
-  Plug 'jiangmiao/auto-pairs'                           " automatically closes brackets
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }   " fuzzy search for files
-  Plug 'junegunn/fzf.vim'                               " fuzzy search for files
-  Plug 'lifepillar/vim-solarized8'                      " Solarized theme
-  Plug 'machakann/vim-highlightedyank'                  " highlights yanked chunk
-  Plug 'mattn/emmet-vim'                                " expand abbreviations similar to emmet.
-  Plug 'msanders/snipmate.vim'                          " snippets
-  Plug 'preservim/nerdtree'                             " file browser
-  Plug 'preservim/vimux'                                " Run command in tmux split
-  Plug 'sheerun/vim-polyglot'                           " syntax highlighting for many languages
-  Plug 'stefandtw/quickfix-reflector.vim'               " Mass edit in quickfix window
-  Plug 'tpope/vim-bundler'                              " Goodies for bundler. Required for ctags gem inspection
-  Plug 'tpope/vim-commentary'                           " comment stuff out, like these comments
-  Plug 'tpope/vim-dispatch'                             " Asynchronous build and test dispatcher
-  Plug 'tpope/vim-eunuch'                               " UNIX shell commands
-  Plug 'tpope/vim-fugitive'                             " git wrapper
-  Plug 'tpope/vim-rails'                                " Editing RoR apps. Required for ctags gem inspection
-  Plug 'tpope/vim-repeat'                               " Repeat.vim remaps `.` in a way that plugins can tap into it
-  Plug 'tpope/vim-surround'                             " change and add surrounds, []()''...
+ Plug 'AndrewRadev/splitjoin.vim'                      " Switch between single-line and multiline forms of code
+ Plug 'Eliot00/git-lens.vim'                           " Shows git blame info in the sign column and on hover
+ Plug 'ap/vim-css-color'                               " highlight hex values with their color
+ Plug 'christoomey/vim-tmux-navigator'                 " Easily navigate between tmux / vim panes
+ Plug 'github/copilot.vim'                             " Uses GitHub API to suggest completions for current line
+ Plug 'wojciechkepka/vim-github-dark'                  " github dark theme
+ Plug 'godlygeek/tabular'                              " align stuff... like these vim comments
+ Plug 'itchyny/lightline.vim'                          " customize status bar
+ Plug 'itchyny/vim-cursorword'                         " highlights all occurrences of current word under cursor
+ Plug 'jiangmiao/auto-pairs'                           " automatically closes brackets
+ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }   " fuzzy search for files
+ Plug 'junegunn/fzf.vim'                               " fuzzy search for files
+ Plug 'machakann/vim-highlightedyank'                  " highlights yanked chunk
+ Plug 'mattn/emmet-vim'                                " expand abbreviations similar to emmet.
+ Plug 'msanders/snipmate.vim'                          " snippets
+ Plug 'preservim/nerdtree'                             " file browser
+ Plug 'preservim/vimux'                                " Run command in tmux split
+ Plug 'sheerun/vim-polyglot'                           " syntax highlighting for many languages
+ Plug 'stefandtw/quickfix-reflector.vim'               " Mass edit in quickfix window
+ Plug 'tpope/vim-bundler'                              " Goodies for bundler. Required for ctags gem inspection
+ Plug 'tpope/vim-commentary'                           " comment stuff out, like these comments
+ Plug 'tpope/vim-dispatch'                             " Asynchronous build and test dispatcher
+ Plug 'tpope/vim-eunuch'                               " UNIX shell commands
+ Plug 'tpope/vim-fugitive'                             " git wrapper
+ Plug 'tpope/vim-rails'                                " Editing RoR apps. Required for ctags gem inspection
+ Plug 'tpope/vim-repeat'                               " Repeat.vim remaps `.` in a way that plugins can tap into it
+ Plug 'tpope/vim-surround'                             " change and add surrounds, []()''...
 
-  " Nerdtree plugins to be initialized after
-  Plug 'PhilRunninger/nerdtree-visual-selection'        " Open multiple files via NerdTree
-  Plug 'ryanoasis/vim-devicons'                         " display cool icons in NerdTree
+ " Nerdtree plugins to be initialized after
+ Plug 'PhilRunninger/nerdtree-visual-selection'        " Open multiple files via NerdTree
+ Plug 'ryanoasis/vim-devicons'                         " display cool icons in NerdTree
 call plug#end()
 
 " ================ APPEARANCE ======================
-colorscheme solarized8
-let g:solarized_visibility = 'high'
+colorscheme ghdark
 set background=dark
+let g:gh_color = "soft"
 
 " ================ SYNTAX ======================
 syntax on
